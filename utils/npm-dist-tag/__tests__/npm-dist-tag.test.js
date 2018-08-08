@@ -19,15 +19,18 @@ describe("dist-tag", () => {
       version: "1.0.0",
       location: "/test/npm/dist-tag/add",
     };
+    const otp = "123456";
     const tag = "added-tag";
     const registry = "https://custom-registry/add";
 
     it("adds a dist-tag for a given package@version", async () => {
-      await npmDistTag.add(pkg, tag, {});
+      await npmDistTag.add(pkg, tag, { otp });
 
       expect(ChildProcessUtilities.exec).lastCalledWith("npm", ["dist-tag", "add", "foo-pkg@1.0.0", tag], {
         cwd: pkg.location,
-        env: {},
+        env: {
+          npm_config_otp: otp,
+        },
         pkg,
       });
     });
@@ -50,15 +53,18 @@ describe("dist-tag", () => {
       name: "bar-pkg",
       location: "/test/npm/dist-tag/remove",
     };
+    const otp = "654321";
     const tag = "removed-tag";
     const registry = "https://custom-registry/remove";
 
     it("removes a dist-tag for a given package", async () => {
-      await npmDistTag.remove(pkg, tag, {});
+      await npmDistTag.remove(pkg, tag, { otp });
 
       expect(ChildProcessUtilities.exec).lastCalledWith("npm", ["dist-tag", "rm", pkg.name, tag], {
         cwd: pkg.location,
-        env: {},
+        env: {
+          npm_config_otp: otp,
+        },
         pkg,
       });
     });
