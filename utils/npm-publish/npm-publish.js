@@ -14,11 +14,11 @@ module.exports = npmPublish;
 module.exports.npmPack = npmPack;
 module.exports.makePacker = makePacker;
 
-function npmPublish(pkg, tag, { npmClient, registry }) {
+function npmPublish(pkg, tag, { npmClient, registry, otp }) {
   log.verbose("publish", pkg.name);
 
   const distTag = tag && tag.trim();
-  const opts = getExecOpts(pkg, registry);
+  const opts = getExecOpts(pkg, registry, otp);
   const args = ["publish", "--ignore-scripts"];
 
   if (distTag) {
